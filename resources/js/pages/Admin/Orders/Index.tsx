@@ -80,14 +80,14 @@ export default function OrderIndex({ orders, filters, meta }: Props) {
       <Head title={meta.title} />
 
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Manage Orders</h1>
+        <h1 className="text-2xl text-gray-500 font-bold">Manage Orders</h1>
       </div>
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="search">Search Orders</Label>
+            <Label className="text-gray-500" htmlFor="search">Search Orders</Label>
             <Input
               id="search"
               placeholder="Search by order ID or customer name..."
@@ -97,7 +97,7 @@ export default function OrderIndex({ orders, filters, meta }: Props) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">Filter by Status</Label>
+            <Label className="text-gray-500" htmlFor="status">Filter by Status</Label>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="All Statuses" />

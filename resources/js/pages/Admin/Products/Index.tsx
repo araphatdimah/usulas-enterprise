@@ -25,9 +25,9 @@ export default function ProductIndex({ products, meta }: Props) {
       <Head title={meta.title} />
 
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Manage Products</h1>
+        <h1 className="text-2xl text-gray-500 font-bold">Manage Products</h1>
         <Link href="/admin/products/create">
-          <Button>Add New Product</Button>
+          <Button className="text-gray-500">Add New Product</Button>
         </Link>
       </div>
 
