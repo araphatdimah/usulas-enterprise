@@ -172,71 +172,6 @@ export default function ProductEdit({ product }: Props) {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-gray-500" htmlFor="image">Product Image</Label>
-              {/* Image section */}
-                        {productImageError ? (
-                        productImageError === "Image size must be less than 3MB" ? (
-                            <p className="text-center mb-2 text-[#fa3c8c]">{productImageError}</p>
-                        ) : (
-                            <p className="text-green-400 text-center mb-2">
-                            Size Accepted{" "}
-                            <CheckCircleIcon className="text-green-500 inline-flex mb-1 font-bold size-6" />
-                            </p>
-                        )
-                        ) : (
-                        <p className="text-center mb-2 text-gray-500">
-                            Max 4 images, each less than 3MB
-                        </p>
-                        )}
-
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 justify-center">
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <div key={index} className="relative flex flex-col items-center">
-                            <div className="w-20 h-24 sm:w-28 sm:h-28 rounded-md border-2 border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
-                                {data.image &&
-                                data.image[index] ? (
-                                <img
-                                    src={
-                                    typeof data.image[index] === "string"
-                                        ? `/storage/${data.image[index]}`
-                                        : URL.createObjectURL(data.image[index])
-                                    }
-                                    alt={`Preview ${index + 1}`}
-                                    className="w-full h-full object-cover"
-                                />
-                                ) : (
-                                <PhotoIcon className="w-10 h-10 text-gray-400" />
-                                )}
-                            </div>
-
-                            {data.image &&
-                                data.image[index] && (
-                                <button
-                                    type="button"
-                                    onClick={() => removeProductImage(index)}
-                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                                >
-                                    <XMarkIcon className="w-4 h-4" />
-                                </button>
-                                )}
-
-                            <label className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
-                                <PhotoIcon className="w-4 h-4" />
-                                <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleProductImageChange(e, index)}
-                                className="hidden"
-                                name={`image-${index}`}
-                                />
-                            </label>
-                            </div>
-                        ))}
-                        </div>
-            </div>
-          </div>
-
-          <div className="space-y-2">
             <Label className="text-gray-500" htmlFor="description">Description</Label>
             <Textarea
               className="text-gray-500"
@@ -244,10 +179,75 @@ export default function ProductEdit({ product }: Props) {
               value={data.description}
               onChange={(e: any) => setData('description', e.target.value)}
               placeholder="Enter product description"
-              rows={4}
+              rows={2}
             />
             {errors.description && <p className="text-sm text-red-600">{errors.description}</p>}
           </div>
+          </div>
+          
+            <div className="space-y-2">
+              <Label className="text-gray-500" htmlFor="image">Product Image</Label>
+              {/* Image section */}
+                {productImageError ? (
+                  productImageError === "Image size must be less than 3MB" ? (
+                      <p className="text-center mb-2 text-[#fa3c8c]">{productImageError}</p>
+                  ) : (
+                      <p className="text-green-400 text-center mb-2">
+                      Size Accepted{" "}
+                      <CheckCircleIcon className="text-green-500 inline-flex mb-1 font-bold size-6" />
+                      </p>
+                  )
+                  ) : (
+                  <p className="text-center mb-2 text-gray-500">
+                      Max 4 images, each less than 3MB
+                  </p>
+                  )}
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 justify-center">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                      <div key={index} className="relative flex flex-col items-center">
+                      <div className="w-20 h-24 sm:w-28 sm:h-28 rounded-md border-2 border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
+                          {data.image &&
+                          data.image[index] ? (
+                          <img
+                              src={
+                              typeof data.image[index] === "string"
+                                  ? `/storage/${data.image[index]}`
+                                  : URL.createObjectURL(data.image[index])
+                              }
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-full object-cover"
+                          />
+                          ) : (
+                          <PhotoIcon className="w-10 h-10 text-gray-400" />
+                          )}
+                      </div>
+
+                      {data.image &&
+                          data.image[index] && (
+                          <button
+                              type="button"
+                              onClick={() => removeProductImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                          >
+                              <XMarkIcon className="w-4 h-4" />
+                          </button>
+                          )}
+
+                      <label className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
+                          <PhotoIcon className="w-4 h-4" />
+                          <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleProductImageChange(e, index)}
+                          className="hidden"
+                          name={`image-${index}`}
+                          />
+                      </label>
+                      </div>
+                  ))}
+                  </div>
+            </div>
 
           <div className="flex items-center space-x-2">
             <Checkbox
