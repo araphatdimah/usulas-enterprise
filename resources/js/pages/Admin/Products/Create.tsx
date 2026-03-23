@@ -200,10 +200,10 @@ const removeProductImage = (index: number) => {
                     </p>
                     )}
 
-                    <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 justify-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 justify-center">
                     {Array.from({ length: 4 }).map((_, index) => (
                         <div key={index} className="relative flex flex-col items-center">
-                        <div className="w-20 h-24 sm:w-28 sm:h-28 rounded-md border-2 border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
+                        <div className="w-20 h-24 sm:w-38 sm:h-38 rounded-md border-2 border-gray-300 overflow-hidden bg-gray-100 flex items-center justify-center">
                             {imagePreviews[index] ? (
                             <img
                                 src={imagePreviews[index]}
@@ -219,13 +219,13 @@ const removeProductImage = (index: number) => {
                             <button
                             type="button"
                             onClick={() => removeProductImage(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                            className="absolute -top-2 right-41 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
                             >
                             <XMarkIcon className="w-4 h-4" />
                             </button>
                         )}
 
-                        <label className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
+                        <label className="absolute bottom-0 right-36 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
                             <PhotoIcon className="w-4 h-4" />
                             <input
                             type="file"

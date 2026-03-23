@@ -228,13 +228,13 @@ export default function ProductEdit({ product }: Props) {
                           <button
                               type="button"
                               onClick={() => removeProductImage(index)}
-                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                              className="absolute -top-2 right-12 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
                           >
                               <XMarkIcon className="w-4 h-4" />
                           </button>
                           )}
 
-                      <label className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
+                      <label className="absolute bottom-0 right-7 bg-blue-600 text-white rounded-full p-2 cursor-pointer hover:bg-blue-700 transition-colors">
                           <PhotoIcon className="w-4 h-4" />
                           <input
                           type="file"
