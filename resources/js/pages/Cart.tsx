@@ -1,17 +1,29 @@
 import React, { useState } from 'react'
-import { Head, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { Inertia } from '@inertiajs/inertia'
 import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
 
 export default function Cart() {
+  const pathRouter = router;
   const { cartItems = [], total = 0, meta = {} } = usePage().props
   const [loading, setLoading] = useState(false)
 
-  const updateQuantity = async (productId, newQty) => {
+  const updateQuantity = async (productId: number, newQty: number) => {
     setLoading(true)
     try {
-      await Inertia.patch(`/cart/${productId}`, { qty: newQty })
+     await fetch(`/cart/${productId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ qty: newQty }),
+      }).then(res => {
+        if (!res.ok) throw new Error('Failed to update cart')
+        pathRouter.reload()
+      })
     } catch (error) {
       console.error('Error updating cart:', error)
     } finally {
@@ -19,10 +31,21 @@ export default function Cart() {
     }
   }
 
-  const removeItem = async (productId) => {
+  const removeItem = async (productId: number) => {
     setLoading(true)
     try {
-      await Inertia.delete(`/cart/${productId}`)
+      //await Inertia.delete(`/cart/${productId}`)
+      await fetch(`/cart/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+          Accept: 'application/json',
+        },
+      }).then(res => {
+        if (!res.ok) throw new Error('Failed to remove item')
+        pathRouter.reload()
+      })
     } catch (error) {
       console.error('Error removing item:', error)
     } finally {

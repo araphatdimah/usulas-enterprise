@@ -87,6 +87,7 @@ class CartController extends Controller
         $total = $this->calculateTotal($cartItems);
 
         return response()->json([
+            'success' => true,
             'cartItems' => $cartItems,
             'total' => $total,
             'cart_count' => $this->getCartCount($cart),
