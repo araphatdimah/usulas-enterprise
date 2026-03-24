@@ -44,6 +44,8 @@ class CheckoutController extends Controller
             'address' => 'required|string|max:500',
             'city' => 'required|string|max:100',
             'region' => 'required|string|max:100',
+            'customer_latitude' => 'nullable',
+            'customer_longitude' => 'nullable',
             'payment_method' => 'required|in:paystack',
         ]);
 
@@ -119,6 +121,8 @@ class CheckoutController extends Controller
             'payment_status' => 'paid',
             'shipping_address' => $orderData['customer'],
             'billing_address' => $orderData['customer'],
+            'customer_latitude' => $orderData['customer'],
+            'customer_longitude' => $orderData['customer'],
             'items' => $orderData['items'],
         ]);
 

@@ -11,7 +11,7 @@ declare global {
 }
 
 export default function Checkout() {
-  const { cartItems = [], total = 0, meta = {} } = usePage().props
+  const { cartItems = [], total = 0, meta = {} }: any = usePage().props
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
     name: '',
@@ -20,6 +20,8 @@ export default function Checkout() {
     address: '',
     city: '',
     region: '',
+    customer_latitude: '',
+    customer_longitude: '',
     payment_method: 'paystack',
   })
   const [locationMethod, setLocationMethod] = useState<'manual' | 'gps'>('manual')
@@ -29,11 +31,18 @@ export default function Checkout() {
     setForm(prev => ({ ...prev, [field]: value }))
   }
 
+  // Get user's current location using Geolocation API
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCurrentLocation({
+          setForm(prev => ({
+            ...prev,
+            customer_latitude: position.coords.latitude.toString(),
+            customer_longitude: position.coords.longitude.toString(),
+          }));
+
+        setCurrentLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           })
@@ -49,6 +58,7 @@ export default function Checkout() {
     }
   }
 
+  // Handle form submission and initiate Paystack payment
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
