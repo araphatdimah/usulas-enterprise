@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import { Toaster } from 'react-hot-toast'
 
 export default function Shop() {
-  const { products, categories = [], filters = {}, meta = {} } = usePage().props
+  const { products, categories = [], filters = {}, meta = {} }: any = usePage().props
   const [form, setForm] = useState({
     category: filters.category || '',
     search: filters.search || '',
@@ -53,6 +53,7 @@ export default function Shop() {
     )
   }
 
+  // Handle sorting
   const handleSort = (sortBy: string) => {
     const newDirection = form.sort_by === sortBy && form.sort_direction === 'asc' ? 'desc' : 'asc'
     const newForm = { ...form, sort_by: sortBy, sort_direction: newDirection }
@@ -64,11 +65,13 @@ export default function Shop() {
     )
   }
 
+  // Reset all filters
   const resetFilters = () => {
     setForm({ category: '', search: '', sort_by: 'name', sort_direction: 'asc' })
     Inertia.get('/shop', {}, { preserveState: true, replace: true })
   }
 
+  // Render pagination links
   const renderPagination = () => {
     if (!products.links) return null
     return (
@@ -97,6 +100,7 @@ export default function Shop() {
     )
   }
 
+  // Render loading skeletons
   const renderSkeletons = () => {
     const skeletons = Array.from({ length: 8 }, (_, i) => i)
     return (
@@ -126,7 +130,7 @@ export default function Shop() {
                   <div>
                     <h2 className="text-lg font-semibold mb-2">Categories</h2>
                     <ul className="space-y-1">
-                      {categories.map(cat => (
+                      {categories.map((cat: string) => (
                         <li key={cat}>
                           <button
                             onClick={() => selectCategory(cat)}
@@ -193,7 +197,7 @@ export default function Shop() {
                 ) : products.data && products.data.length > 0 ? (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {products.data.map((p, index) => (
+                      {products.data.map((p: { id: number; image: string; name: string; price: number }, index: number) => (
                         <ProductCard key={p.id} product={p} index={index} />
                       ))}
                     </div>

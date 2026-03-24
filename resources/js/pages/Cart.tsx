@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 
 export default function Cart() {
   const pathRouter = router;
-  const { cartItems = [], total = 0, meta = {} } = usePage().props
+  const { cartItems = [], total = 0, meta = {} }: any = usePage().props
   const [loading, setLoading] = useState(false)
 
   const updateQuantity = async (productId: number, newQty: number) => {
@@ -31,10 +31,11 @@ export default function Cart() {
     }
   }
 
-  const removeItem = async (productId: number) => {
+  const removeItem = async (productId: number, productName: string) => {
     setLoading(true)
     try {
       //await Inertia.delete(`/cart/${productId}`)
+      confirm(`Do you want to remove ${productName} from cart?`) &&
       await fetch(`/cart/${productId}`, {
         method: 'DELETE',
         headers: {
@@ -85,7 +86,7 @@ export default function Cart() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Cart Items */}
               <div className="lg:col-span-2 space-y-4">
-                {cartItems.map((item) => (
+                {cartItems.map((item: { id: number; image: string; name: string; price: number; qty: number; subtotal: number }) => (
                   <div key={item.id} className="flex items-center space-x-4 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                     <img
                       src={item.image}
@@ -116,7 +117,7 @@ export default function Cart() {
                     <div className="text-right">
                       <p className="font-semibold">GHS {item.subtotal}</p>
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.id, item.name)}
                         disabled={loading}
                         className="text-red-600 hover:text-red-800 text-sm disabled:opacity-50"
                       >

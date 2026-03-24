@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import AdminLayout from '@/layouts/admin-layout';
 import Chart from 'chart.js/auto';
 
-export default function AdminDashboard({ stats, salesData, recentOrders, topProducts, monthlySales, filters }) {
+export default function AdminDashboard({ stats, salesData, recentOrders, topProducts, monthlySales, filters }: any) {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -12,11 +12,11 @@ export default function AdminDashboard({ stats, salesData, recentOrders, topProd
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: salesData.map(d => d.date),
+          labels: salesData.map((d: { date: string }) => d.date),
           datasets: [
             {
               label: 'Revenue',
-              data: salesData.map(d => d.revenue),
+              data: salesData.map((d: { revenue: number }) => d.revenue),
               borderColor: 'rgba(75, 192, 192, 1)',
               tension: 0.1,
             },
@@ -60,7 +60,7 @@ export default function AdminDashboard({ stats, salesData, recentOrders, topProd
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Recent Orders</h2>
         <ul className="space-y-2">
-          {recentOrders.map(o => (
+          {recentOrders.map((o: {id: number, total_amount: number, status: string, order_number: number}) => (
             <li key={o.id} className="bg-white p-2 rounded shadow">
               {o.order_number} - GHS {o.total_amount} ({o.status})
             </li>

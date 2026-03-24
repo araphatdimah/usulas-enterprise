@@ -5,7 +5,7 @@ import { useCart } from '@/Context/CartContext'
 
 export default function ProductCard({ product }: {product: any}) {
   const routerPath = router;
-  const { addToCart: updateCartCount } = useCart()
+  const { addToCart: updateCartCount }: any = useCart()
 
   // ✅ Safe image handling
   const images = (() => {
@@ -21,6 +21,7 @@ export default function ProductCard({ product }: {product: any}) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(false)
 
+  // Handle add to cart
   const handleAddToCart = async () => {
     setLoading(true)
 
@@ -56,6 +57,7 @@ export default function ProductCard({ product }: {product: any}) {
     }
   }
 
+  // Determine image source
   const imageSrc =
     images[currentIndex]?.startsWith('http')
       ? images[currentIndex]
