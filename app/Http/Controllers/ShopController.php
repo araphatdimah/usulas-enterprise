@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -14,7 +15,7 @@ class ShopController extends Controller
     public function index(Request $request)
     {
         // sample product list
-        $products = collect(config('products'));
+        $products = Product::all();
 
         // apply filters
         if ($request->filled('category')) {

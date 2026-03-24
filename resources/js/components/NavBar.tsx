@@ -159,7 +159,7 @@ export default function NavBar() {
             {auth?.user?.role === 'admin' && (
               <Link
                 href="/admin"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 font-semibold"
+                className="block px-3 py-2 rounded-md text-base text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 font-semibold"
               >
                 Admin Dashboard
               </Link>
