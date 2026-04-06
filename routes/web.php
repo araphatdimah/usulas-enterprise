@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('/admin', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+
         Route::prefix('admin/products')->name('admin.products.')->group(function () {
             Route::get('/', [\App\Http\Controllers\AdminProductController::class, 'index'])->name('index');
             Route::get('/create', [\App\Http\Controllers\AdminProductController::class, 'create'])->name('create');
@@ -58,6 +59,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{order}/status', [\App\Http\Controllers\AdminController::class, 'updateOrderStatus'])->name('update-status');
         });
     });
+
+    Route::middleware(['admin.only'])->group(function () {
+        Route::get('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('admin.users.index');
+        Route::get('/admin/users/create', [\App\Http\Controllers\AdminUserController::class, 'create'])->name('admin.users.create');
+        Route::post('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.users.store');
+    });
+
+    Route::get('/invoices/{orderNumber}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('invoices.show');
 });
 
 require __DIR__ . '/settings.php';

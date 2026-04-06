@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class AdminOnlyMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class AdminMiddleware
             return redirect()->route('login');
         }
 
-        if (!auth()->user()->isPrivileged()) {
+        if (!auth()->user()->isAdmin()) {
             abort(403, 'Access denied. Admin privileges required.');
         }
 

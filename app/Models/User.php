@@ -60,6 +60,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user is privileged staff or admin
+     */
+    public function isStaff(): bool
+    {
+        return $this->role === 'staff';
+    }
+
+    /**
+     * Check if user has admin-like access
+     */
+    public function isPrivileged(): bool
+    {
+        return in_array($this->role, ['admin', 'staff'], true);
+    }
+
+    /**
      * Check if user is customer
      */
     public function isCustomer(): bool

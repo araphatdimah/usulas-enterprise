@@ -47,7 +47,7 @@ export default function NavBar() {
             <Link href="/contact" className="text-gray-700 dark:text-gray-200 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 rounded">
               Contact
             </Link>
-            {auth?.user?.role === 'admin' && (
+            {(auth?.user?.role === 'admin' || auth?.user?.role === 'staff') && (
               <Link href="/admin" className="text-gray-700 dark:text-gray-200 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 rounded font-semibold">
                 Admin
               </Link>

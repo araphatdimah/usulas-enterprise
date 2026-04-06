@@ -25,6 +25,7 @@ class AdminController extends Controller
             ->sum('total_amount');
         $totalCustomers = User::where('role', 'customer')->count();
         $totalProducts = Product::count();
+        $totalTeamMembers = User::whereIn('role', ['admin', 'staff'])->count();
 
         // Sales by period (daily for the selected range)
         $salesData = Order::selectRaw('DATE(created_at) as date, COUNT(*) as orders, SUM(total_amount) as revenue')
@@ -67,6 +68,7 @@ class AdminController extends Controller
                 'totalRevenue' => $totalRevenue,
                 'totalCustomers' => $totalCustomers,
                 'totalProducts' => $totalProducts,
+                'totalTeamMembers' => $totalTeamMembers,
             ],
             'salesData' => $salesData,
             'recentOrders' => $recentOrders,

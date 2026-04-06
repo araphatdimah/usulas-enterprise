@@ -54,8 +54,11 @@ class CheckoutController extends Controller
         $total = $this->calculateTotal($cartItems);
 
         // Create order data (in a real app, you'd save this to database)
+        $orderNumber = 'ORD-' . time() . '-' . rand(1000, 9999);
+
         $orderData = [
-            'id' => 'ORD-' . time() . '-' . rand(1000, 9999),
+            'id' => $orderNumber,
+            'order_number' => $orderNumber,
             'customer' => [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -115,14 +118,14 @@ class CheckoutController extends Controller
         // Create db record
         $order = \App\Models\Order::create([
             'user_id' => auth()->id() ?: null,
-            'order_number' => $orderData['id'],
+            'order_number' => $orderData['order_number'],
             'total_amount' => $orderData['total'],
             'status' => 'paid',
             'payment_status' => 'paid',
             'shipping_address' => $orderData['customer'],
             'billing_address' => $orderData['customer'],
-            'customer_latitude' => $orderData['customer'],
-            'customer_longitude' => $orderData['customer'],
+            'customer_latitude' => $request->customer_latitude,
+            'customer_longitude' => $request->customer_longitude,
             'items' => $orderData['items'],
         ]);
 

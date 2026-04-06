@@ -61,6 +61,12 @@ export default function OrderConfirmation() {
 
           <div className="text-center space-y-4">
             <a
+              href={`/invoices/${order.order_number || order.id}`}
+              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+            >
+              View Invoice
+            </a>
+            <a
               href="/shop"
               className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
             >

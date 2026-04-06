@@ -76,14 +76,19 @@ export default function OrderShow({ order, meta }: Props) {
     <AdminLayout>
       <Head title={meta.title} />
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col gap-4 justify-between items-start md:flex-row md:items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold">Order #{order.order_number}</h1>
           <p className="text-gray-600">Placed on {formatDate(order.created_at)}</p>
         </div>
-        <Link href="/admin/orders">
-          <Button variant="outline">Back to Orders</Button>
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link href={`/invoices/${order.order_number}`}>
+            <Button variant="outline">Print Invoice</Button>
+          </Link>
+          <Link href="/admin/orders">
+            <Button variant="outline">Back to Orders</Button>
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

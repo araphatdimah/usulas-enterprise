@@ -117,7 +117,7 @@ class FortifyServiceProvider extends ServiceProvider
                     public function toResponse($request)
                     {
                         $user = $request->user();
-                        if ($user && method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                        if ($user && (method_exists($user, 'isAdmin') && $user->isAdmin()) || (method_exists($user, 'isStaff') && $user->isStaff())) {
                             return redirect()->intended(route('admin.dashboard'));
                         }
 

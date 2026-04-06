@@ -34,31 +34,35 @@ export default function AdminDashboard({ stats, salesData, recentOrders, topProd
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="p-4 bg-white rounded shadow">
           <div className="text-sm text-gray-500">Total Orders</div>
-          <div className="text-2xl font-semibold">{stats.totalOrders}</div>
+          <div className="text-2xl text-gray-400 font-semibold">{stats.totalOrders}</div>
         </div>
         <div className="p-4 bg-white rounded shadow">
           <div className="text-sm text-gray-500">Total Revenue</div>
-          <div className="text-2xl font-semibold">GHS {stats.totalRevenue}</div>
+          <div className="text-2xl text-gray-400 font-semibold">GHS {stats.totalRevenue}</div>
         </div>
         <div className="p-4 bg-white rounded shadow">
           <div className="text-sm text-gray-500">Customers</div>
-          <div className="text-2xl font-semibold">{stats.totalCustomers}</div>
+          <div className="text-2xl text-gray-400 font-semibold">{stats.totalCustomers}</div>
         </div>
         <div className="p-4 bg-white rounded shadow">
           <div className="text-sm text-gray-500">Products</div>
-          <div className="text-2xl font-semibold">{stats.totalProducts}</div>
+          <div className="text-2xl text-gray-400 font-semibold">{stats.totalProducts}</div>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">Team Members</div>
+          <div className="text-2xl text-gray-400 font-semibold">{stats.totalTeamMembers}</div>
         </div>
       </div>
 
       {/* sales chart */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Sales Over Time</h2>
+        <h2 className="text-xl text-gray-500 font-semibold mb-2">Sales Over Time</h2>
         <canvas id="salesChart" ref={chartRef} />
       </div>
 
       {/* recent orders list */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Recent Orders</h2>
+        <h2 className="text-xl text-gray-500 font-semibold mb-2">Recent Orders</h2>
         <ul className="space-y-2">
           {recentOrders.map((o: {id: number, total_amount: number, status: string, order_number: number}) => (
             <li key={o.id} className="bg-white p-2 rounded shadow">

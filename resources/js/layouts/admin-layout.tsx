@@ -17,6 +17,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Dashboard', href: '/admin', icon: 'dashboard' },
     { name: 'Products', href: '/admin/products', icon: 'products' },
     { name: 'Orders', href: '/admin/orders', icon: 'orders' },
+    ...(auth?.user?.role === 'admin'
+      ? [{ name: 'Users', href: '/admin/users', icon: 'users' }]
+      : []),
   ];
 
   const getIcon = (iconName: string) => {
