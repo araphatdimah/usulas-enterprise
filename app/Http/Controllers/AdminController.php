@@ -116,6 +116,21 @@ class AdminController extends Controller
             ->values();
     }
 
+    public function invoices(Request $request)
+    {
+        $recentOrders = Order::with('user')
+            ->orderBy('created_at', 'desc')
+            ->limit(20)
+            ->get();
+
+        return Inertia::render('Admin/Invoices/Index', [
+            'recentOrders' => $recentOrders,
+            'meta' => [
+                'title' => 'Invoices',
+            ],
+        ]);
+    }
+
     public function orders(Request $request)
     {
         $status = $request->get('status');

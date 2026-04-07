@@ -1,6 +1,5 @@
+import { Link, usePage, router } from '@inertiajs/react';
 import React from 'react';
-import { Link, usePage } from '@inertiajs/react';
-import { router } from '@inertiajs/react';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -17,6 +16,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Dashboard', href: '/admin', icon: 'dashboard' },
     { name: 'Products', href: '/admin/products', icon: 'products' },
     { name: 'Orders', href: '/admin/orders', icon: 'orders' },
+    { name: 'Invoices', href: '/admin/invoices', icon: 'invoices' },
     ...(auth?.user?.role === 'admin'
       ? [{ name: 'Users', href: '/admin/users', icon: 'users' }]
       : []),
@@ -37,13 +37,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
           </svg>
         );
-      case 'orders':
+      case 'invoices':
         return (
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-6a2 2 0 012-2h6" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2v-8" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3v4h4" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11h8M8 15h5" />
           </svg>
         );
-      default:
+      case 'users':
+        return (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM6 20H1v-2a6 6 0 016-6v0a6 6 0 016 6v0" />
+          </svg>
+        );
         return null;
     }
   };

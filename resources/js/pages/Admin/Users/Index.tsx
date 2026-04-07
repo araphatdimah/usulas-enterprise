@@ -1,8 +1,25 @@
-import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import AdminLayout from '@/layouts/admin-layout';
 
 export default function UserIndex({ users, meta }: any) {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const handleDelete = (userId: number) => {
+    if (confirm('Are you sure you want to delete this user?')) {
+      setDeletingId(userId);
+      router.delete(`/admin/users/${userId}`, {
+        onSuccess: () => {
+          setDeletingId(null);
+        },
+        onError: () => {
+          setDeletingId(null);
+          alert('Error deleting user');
+        },
+      });
+    }
+  };
+
   return (
     <AdminLayout>
       <Head title={meta.title} />
@@ -25,6 +42,7 @@ export default function UserIndex({ users, meta }: any) {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -32,8 +50,17 @@ export default function UserIndex({ users, meta }: any) {
               <tr key={user.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm capitalize">{user.role || 'customer'}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{user.role || 'customer'}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    disabled={deletingId === user.id}
+                    className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                  >
+                    {deletingId === user.id ? 'Deleting...' : 'Delete'}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

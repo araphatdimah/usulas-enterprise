@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AdminLayout from '@/layouts/admin-layout';
+import InvoiceDialog from '@/components/InvoiceDialog';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
@@ -38,6 +39,7 @@ interface Props {
 
 export default function OrderShow({ order, meta }: Props) {
   const { put, processing } = useForm();
+  const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
 
   const handleStatusChange = (newStatus: string) => {
     put(`/admin/orders/${order.id}/status`, {
@@ -82,14 +84,27 @@ export default function OrderShow({ order, meta }: Props) {
           <p className="text-gray-600">Placed on {formatDate(order.created_at)}</p>
         </div>
         <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => setIsInvoiceDialogOpen(true)}
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Generate Invoice
+          </button>
           <Link href={`/invoices/${order.order_number}`}>
-            <Button variant="outline">Print Invoice</Button>
+            <Button variant="outline">Quick View</Button>
           </Link>
           <Link href="/admin/orders">
             <Button variant="outline">Back to Orders</Button>
           </Link>
         </div>
       </div>
+
+      <InvoiceDialog
+        isOpen={isInvoiceDialogOpen}
+        orderNumber={order.order_number}
+        onClose={() => setIsInvoiceDialogOpen(false)}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Order Details */}

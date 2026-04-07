@@ -300,7 +300,7 @@ export default function Checkout() {
                 <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
                 <div className="space-y-4 mb-6">
-                  {cartItems.map((item) => (
+                  {cartItems.map((item: any) => (
                     <div key={item.id} className="flex items-center space-x-4">
                       <img
                         src={item.image}

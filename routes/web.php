@@ -53,20 +53,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{product}', [\App\Http\Controllers\AdminProductController::class, 'destroy'])->name('destroy');
         });
 
+        Route::get('/admin/invoices', [\App\Http\Controllers\AdminController::class, 'invoices'])->name('admin.invoices.index');
+
         Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
             Route::get('/', [\App\Http\Controllers\AdminController::class, 'orders'])->name('index');
             Route::get('/{order}', [\App\Http\Controllers\AdminController::class, 'showOrder'])->name('show');
             Route::put('/{order}/status', [\App\Http\Controllers\AdminController::class, 'updateOrderStatus'])->name('update-status');
         });
-    });
 
-    Route::middleware(['admin.only'])->group(function () {
-        Route::get('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('admin.users.index');
-        Route::get('/admin/users/create', [\App\Http\Controllers\AdminUserController::class, 'create'])->name('admin.users.create');
-        Route::post('/admin/users', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.users.store');
+        Route::get('/invoices/manual/{invoiceNumber}', [\App\Http\Controllers\InvoiceController::class, 'showManual'])->name('invoices.manual.show');
+        Route::post('/invoices/manual/generate', [\App\Http\Controllers\InvoiceController::class, 'generateManual'])->name('invoices.manual.generate');
     });
-
-    Route::get('/invoices/{orderNumber}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('invoices.show');
 });
 
 require __DIR__ . '/settings.php';

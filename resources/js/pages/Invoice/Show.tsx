@@ -3,10 +3,18 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import NavBar from '@/components/NavBar';
 
 export default function InvoiceShow() {
-  const { order, meta = {} } = usePage().props as any;
+  const { order, invoiceData, meta = {} } = usePage().props as any;
 
   const printInvoice = () => {
     window.print();
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   return (
@@ -21,7 +29,7 @@ export default function InvoiceShow() {
         <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow overflow-hidden">
           <div className="flex flex-col gap-4 p-6 border-b border-gray-200 dark:border-gray-700 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Invoice #{order.order_number || order.id}</h1>
+              <h1 className="text-2xl font-bold">Invoice #{invoiceData?.invoice_number || order.order_number || order.id}</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">Printable invoice for customer orders.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -63,11 +71,16 @@ export default function InvoiceShow() {
                 </div>
                 <div className="mt-4 text-sm leading-6 text-gray-700 dark:text-gray-300 space-y-1">
                   <p>
-                    <span className="font-semibold">Invoice #:</span> {order.order_number || order.id}
+                    <span className="font-semibold">Invoice #:</span> {invoiceData?.invoice_number || order.order_number || order.id}
                   </p>
                   <p>
-                    <span className="font-semibold">Date:</span> {new Date(order.created_at).toLocaleDateString()}
+                    <span className="font-semibold">Date:</span> {invoiceData?.invoice_date ? formatDate(invoiceData.invoice_date) : new Date(order.created_at).toLocaleDateString()}
                   </p>
+                  {invoiceData?.due_date && (
+                    <p>
+                      <span className="font-semibold">Due Date:</span> {formatDate(invoiceData.due_date)}
+                    </p>
+                  )}
                   <p>
                     <span className="font-semibold">Total:</span> GHS {order.total_amount ?? order.total}
                   </p>
@@ -114,6 +127,13 @@ export default function InvoiceShow() {
                 </div>
               </div>
             </div>
+
+            {invoiceData?.notes && (
+              <div className="rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-4">
+                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">Notes</h3>
+                <p className="text-sm text-blue-800 dark:text-blue-300 whitespace-pre-wrap">{invoiceData.notes}</p>
+              </div>
+            )}
           </div>
         </div>
       </main>

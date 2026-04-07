@@ -1,10 +1,19 @@
-import React, { useEffect, useRef } from 'react';
-import { Head } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
+import { Head, Link } from '@inertiajs/react';
 import Chart from 'chart.js/auto';
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function AdminDashboard({ stats, salesData, recentOrders, topProducts, monthlySales, filters }: any) {
+import InvoiceDialog from '@/components/InvoiceDialog';
+import AdminLayout from '@/layouts/admin-layout';
+
+export default function AdminDashboard({ stats, salesData, recentOrders }: any) {
   const chartRef = useRef(null);
+  const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
+  const [selectedOrderNumber, setSelectedOrderNumber] = useState('');
+
+  const openInvoiceDialog = (orderNumber: string) => {
+    setSelectedOrderNumber(orderNumber);
+    setIsInvoiceDialogOpen(true);
+  };
 
   useEffect(() => {
     if (chartRef.current && salesData.length) {
@@ -52,6 +61,20 @@ export default function AdminDashboard({ stats, salesData, recentOrders, topProd
           <div className="text-sm text-gray-500">Team Members</div>
           <div className="text-2xl text-gray-400 font-semibold">{stats.totalTeamMembers}</div>
         </div>
+        <div className="p-4 bg-white rounded shadow flex flex-col justify-between">
+          <div>
+            <div className="text-sm text-gray-500">Quick Invoice</div>
+            <div className="text-2xl text-gray-400 font-semibold">Recent Order</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => openInvoiceDialog(recentOrders[0]?.order_number ?? '')}
+            disabled={!recentOrders.length}
+            className="mt-4 inline-flex items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-600"
+          >
+            {recentOrders.length ? 'Generate Invoice' : 'No recent orders'}
+          </button>
+        </div>
       </div>
 
       {/* sales chart */}
@@ -63,14 +86,46 @@ export default function AdminDashboard({ stats, salesData, recentOrders, topProd
       {/* recent orders list */}
       <div className="mb-6">
         <h2 className="text-xl text-gray-500 font-semibold mb-2">Recent Orders</h2>
-        <ul className="space-y-2">
-          {recentOrders.map((o: {id: number, total_amount: number, status: string, order_number: number}) => (
-            <li key={o.id} className="bg-white p-2 rounded shadow">
-              {o.order_number} - GHS {o.total_amount} ({o.status})
-            </li>
-          ))}
-        </ul>
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order #</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {recentOrders.map((o: {id: number, total_amount: number, status: string, order_number: number}) => (
+                <tr key={o.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{o.order_number}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">GHS {o.total_amount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 capitalize">{o.status}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => openInvoiceDialog(o.order_number)}
+                      className="text-blue-600 hover:text-blue-800"
+                    >
+                      Invoice
+                    </button>
+                    <Link href={`/admin/orders/${o.id}`} className="text-green-600 hover:text-green-800">
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <InvoiceDialog
+        isOpen={isInvoiceDialogOpen}
+        orderNumber={selectedOrderNumber}
+        onClose={() => setIsInvoiceDialogOpen(false)}
+      />
     </AdminLayout>
   );
 }
