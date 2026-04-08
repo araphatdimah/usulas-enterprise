@@ -107,13 +107,20 @@ const removeProductImage = (index: number) => {
 
             <div className="space-y-2">
               <Label className="text-gray-500" htmlFor="category">Category</Label>
-              <Input
-                className="text-gray-600"
+              {/* category selectable */}
+              <select
                 id="category"
                 value={data.category}
                 onChange={(e: any) => setData('category', e.target.value)}
-                placeholder="Enter category"
-              />
+                className="border-input text-gray-500 file:text-foreground placeholder:text-muted-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+              >
+                <option value="">--Select a category--</option>
+                <option value="generators">Generator</option>
+                <option value="water pumps">Water Pump</option>
+                <option value="solar panels">Solar</option>
+                <option value="batteries">Battery</option>
+                <option value="inverters">Inverter</option>
+              </select>
               {errors.category && <p className="text-sm text-red-600">{errors.category}</p>}
             </div>
 
