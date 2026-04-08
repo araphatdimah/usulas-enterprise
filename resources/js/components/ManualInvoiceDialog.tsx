@@ -137,7 +137,7 @@ export default function ManualInvoiceDialog({ isOpen, onClose }: ManualInvoiceDi
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-lg bg-white shadow-lg">
           <div className="border-b border-gray-200 px-6 py-4">
-            <h2 className="text-xl font-semibold text-gray-900">Create Manual Invoice</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Create Invoice</h2>
             <p className="mt-1 text-sm text-gray-600">Enter customer and item details to generate a custom invoice</p>
           </div>
 

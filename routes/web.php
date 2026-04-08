@@ -55,6 +55,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/admin/invoices', [\App\Http\Controllers\AdminController::class, 'invoices'])->name('admin.invoices.index');
 
+        // User management
+        Route::prefix('admin/users')->name('admin.users.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\AdminController::class, 'users'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\AdminController::class, 'createUser'])->name('create');
+            Route::post('/', [\App\Http\Controllers\AdminController::class, 'storeUser'])->name('store');
+            Route::delete('/{user}', [\App\Http\Controllers\AdminController::class, 'destroyUser'])->name('destroy');
+        });
+        //Route::get('/admin/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('admin.users.index');
+
         Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
             Route::get('/', [\App\Http\Controllers\AdminController::class, 'orders'])->name('index');
             Route::get('/{order}', [\App\Http\Controllers\AdminController::class, 'showOrder'])->name('show');

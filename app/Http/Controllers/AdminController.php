@@ -131,6 +131,53 @@ class AdminController extends Controller
         ]);
     }
 
+    //this fetch users
+    public function users(Request $request)
+    {
+        $users = User::where('role', '!=', 'admin')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return Inertia::render('Admin/Users/Index', [
+            'users' => $users,
+            'meta' => [
+                'title' => 'Manage Staff',
+            ],
+        ]);
+    }
+    
+    //this creates a new user
+    public function createUser()
+    {
+        return Inertia::render('Admin/Users/Create', [
+            'meta' => [
+                'title' => 'Add Staff Member',
+            ],
+        ]);
+    }
+
+    //this stores a new user
+    public function storeUser(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'role' => 'required|in:admin,staff,customer',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+        User::create($data);
+
+        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+    }
+
+    //this deletes a user
+    public function destroyUser(User $user) 
+    {
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
     public function orders(Request $request)
     {
         $status = $request->get('status');

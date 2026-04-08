@@ -40,7 +40,7 @@ export default function UserCreate({ meta }: any) {
               type="text"
               value={form.data.name}
               onChange={(event) => form.setData('name', event.target.value)}
-              className="mt-2 block w-full text-gray-400 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-2 block w-full text-gray-500 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               required
             />
             {form.errors.name && <p className="mt-2 text-sm text-red-600">{form.errors.name}</p>}
@@ -54,7 +54,7 @@ export default function UserCreate({ meta }: any) {
               type="email"
               value={form.data.email}
               onChange={(event) => form.setData('email', event.target.value)}
-              className="mt-2 block w-full text-gray-400 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-2 block w-full text-gray-500 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               required
             />
             {form.errors.email && <p className="mt-2 text-sm text-red-600">{form.errors.email}</p>}
@@ -67,9 +67,9 @@ export default function UserCreate({ meta }: any) {
               name="role"
               value={form.data.role}
               onChange={(event) => form.setData('role', event.target.value)}
-              className="mt-2 block w-full text-gray-400 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-2 block w-full text-gray-500 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
             >
-              <option value="staff">Privileged User (can manage data, not invite others)</option>
+              <option value="staff">Staff (can manage data, not invite others)</option>
               <option value="customer">Customer</option>
             </select>
             {form.errors.role && <p className="mt-2 text-sm text-red-600">{form.errors.role}</p>}
@@ -83,7 +83,7 @@ export default function UserCreate({ meta }: any) {
               type="password"
               value={form.data.password}
               onChange={(event) => form.setData('password', event.target.value)}
-              className="mt-2 block w-full text-gray-400 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-2 block w-full text-gray-500 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               required
             />
             {form.errors.password && <p className="mt-2 text-sm text-red-600">{form.errors.password}</p>}
@@ -97,7 +97,7 @@ export default function UserCreate({ meta }: any) {
               type="password"
               value={form.data.password_confirmation}
               onChange={(event) => form.setData('password_confirmation', event.target.value)}
-              className="mt-2 block w-full text-gray-400 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+              className="mt-2 block w-full text-gray-500 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
               required
             />
             {form.errors.password_confirmation && (
