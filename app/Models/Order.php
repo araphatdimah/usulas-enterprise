@@ -15,11 +15,17 @@ class Order extends Model
         'payment_status',
         'shipping_address',
         'billing_address',
+        'customer_latitude',
+        'customer_longitude',
         'items',
     ];
 
     protected $casts = [
         'items' => 'array',
+        'shipping_address' => 'array',
+        'billing_address' => 'array',
+        'customer_latitude' => 'float',
+        'customer_longitude' => 'float',
         'total_amount' => 'decimal:2',
     ];
 

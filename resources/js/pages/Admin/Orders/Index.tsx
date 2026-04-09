@@ -16,6 +16,13 @@ interface Order {
   total_amount: number;
   status: string;
   created_at: string;
+  customer_latitude?: number;
+  customer_longitude?: number;
+  shipping_address?: {
+    address?: string;
+    city?: string;
+    region?: string;
+  };
   items: any[]; // JSON array
 }
 
@@ -200,12 +207,38 @@ export default function OrderIndex({ orders, filters, meta }: Props) {
                   <div className="text-sm text-gray-500">{formatDate(order.created_at)}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <Link
-                    href={`/admin/orders/${order.id}`}
-                    className="text-indigo-600 hover:text-indigo-900"
-                  >
-                    View Details
-                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href={`/admin/orders/${order.id}`}
+                      className="text-indigo-600 hover:text-indigo-900"
+                    >
+                      View Details
+                    </Link>
+
+                    {order.customer_latitude != null && order.customer_longitude != null ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => window.open(
+                            `https://www.google.com/maps/dir/?api=1&destination=${order.customer_latitude},${order.customer_longitude}&travelmode=driving`,
+                            '_blank',
+                          )}
+                          className="text-green-600 hover:text-green-900 text-left"
+                        >
+                          Navigate
+                        </button>
+                        <span className="text-sm text-gray-500">
+                          {order.customer_latitude}, {order.customer_longitude}
+                        </span>
+                      </>
+                    ) : order.shipping_address?.address ? (
+                      <span className="text-sm text-gray-500">
+                        {order.shipping_address.address}, {order.shipping_address.city}, {order.shipping_address.region}
+                      </span>
+                    ) : (
+                      <span className="text-sm text-gray-400">No location</span>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

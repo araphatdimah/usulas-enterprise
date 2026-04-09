@@ -73,7 +73,8 @@ export default function Checkout() {
         },
         body: JSON.stringify({
           ...form,
-          location: locationMethod === 'gps' ? currentLocation : null,
+          customer_latitude: form.customer_latitude,
+          customer_longitude: form.customer_longitude,
         }),
       })
 

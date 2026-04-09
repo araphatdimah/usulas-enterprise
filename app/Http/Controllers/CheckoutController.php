@@ -41,11 +41,11 @@ class CheckoutController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:500',
-            'city' => 'required|string|max:100',
-            'region' => 'required|string|max:100',
-            'customer_latitude' => 'nullable',
-            'customer_longitude' => 'nullable',
+            'address' => 'required_without:customer_latitude|string|max:500',
+            'city' => 'required_without:customer_latitude|string|max:100',
+            'region' => 'required_without:customer_latitude|string|max:100',
+            'customer_latitude' => 'nullable|numeric',
+            'customer_longitude' => 'nullable|numeric',
             'payment_method' => 'required|in:paystack',
         ]);
 
@@ -70,6 +70,8 @@ class CheckoutController extends Controller
             'items' => $cartItems,
             'total' => $total,
             'payment_method' => $request->payment_method,
+            'customer_latitude' => $request->customer_latitude,
+            'customer_longitude' => $request->customer_longitude,
             'status' => 'pending_payment',
             'created_at' => now(),
         ];
@@ -120,12 +122,12 @@ class CheckoutController extends Controller
             'user_id' => auth()->id() ?: null,
             'order_number' => $orderData['order_number'],
             'total_amount' => $orderData['total'],
-            'status' => 'paid',
+            'status' => 'pending',
             'payment_status' => 'paid',
             'shipping_address' => $orderData['customer'],
             'billing_address' => $orderData['customer'],
-            'customer_latitude' => $request->customer_latitude,
-            'customer_longitude' => $request->customer_longitude,
+            'customer_latitude' => $orderData['customer_latitude'],
+            'customer_longitude' => $orderData['customer_longitude'],
             'items' => $orderData['items'],
         ]);
 
