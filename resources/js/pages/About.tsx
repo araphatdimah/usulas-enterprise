@@ -39,7 +39,7 @@ export default function About() {
         {/* Our Story section */}
         <section aria-labelledby="our-story">
           <h2 id="our-story" className="text-2xl font-semibold">Our Story</h2>
-          <p className="mt-4 text-gray-700 dark:text-gray-300">Founded in Ghana, Usulas Enterprise began with a simple mission: to make reliable, clean energy accessible. Over the years we've grown from a small installations team to a trusted supplier and service partner for residential and commercial clients across the region. Our focus has always been local impact, durable products and exceptional service.</p>
+          <p className="mt-4 text-gray-700 dark:text-gray-300">Founded in Ghana, Usulas Enterprise began with a simple mission: to make reliable, clean energy accessible. Over the years we've grown from a small installations team to a trusted supplier and service partner for residential and commercial clients across the country. Our focus has always been local impact, durable products and exceptional service.</p>
         </section>
 
         {/* Vision & Values section */}
