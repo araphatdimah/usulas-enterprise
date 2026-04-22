@@ -39,19 +39,19 @@ export default function InvoiceIndex({ recentOrders, meta }: Props) {
       <div className="flex flex-col gap-4 justify-between items-start md:flex-row md:items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-500">Invoices</h1>
-          <p className="text-sm text-gray-600">Generate printable invoices for customer orders.</p>
+          <p className="text-sm text-gray-600 mt-1">Generate printable invoices for customer orders.</p>
         </div>
-        <div className="inline-flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 w-full md:w-auto">
           <button
             type="button"
             onClick={() => setIsManualInvoiceDialogOpen(true)}
-            className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+            className="flex-1 md:flex-none rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
           >
             Create Invoice
           </button>
           <Link
             href="/admin/orders"
-            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="flex-1 md:flex-none rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 text-center"
           >
             View Orders
           </Link>
@@ -81,17 +81,19 @@ export default function InvoiceIndex({ recentOrders, meta }: Props) {
                     <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">{order.user.name}</td>
                     <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">GHS {order.total_amount}</td>
                     <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600 capitalize">{order.status}</td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm space-x-2">
-                      <button
-                        type="button"
-                        onClick={() => openInvoiceDialog(order.order_number)}
-                        className="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700"
-                      >
-                        Generate
-                      </button>
-                      <Link href={`/admin/orders/${order.id}`} className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                        View
-                      </Link>
+                    <td className="px-4 py-4 whitespace-nowrap text-sm">
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <button
+                          type="button"
+                          onClick={() => openInvoiceDialog(order.order_number)}
+                          className="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                        >
+                          Generate
+                        </button>
+                        <Link href={`/admin/orders/${order.id}`} className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                          View
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))}

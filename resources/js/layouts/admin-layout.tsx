@@ -7,6 +7,7 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const { auth } = usePage().props;
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   const handleLogout = () => {
     router.post('/logout');
@@ -69,6 +70,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="md:hidden -ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              >
+                <span className="sr-only">Open sidebar</span>
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
               <Link href="/" className="flex items-center space-x-2">
                 <svg
                   className="h-8 w-8 text-green-600"
@@ -108,29 +119,69 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white shadow-sm min-h-screen">
-          <nav className="mt-8">
-            <div className="px-4 space-y-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                    window.location.pathname === item.href
-                      ? 'bg-green-50 text-green-700 border-r-2 border-green-700'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+        <div className="hidden md:flex md:w-64 md:flex-col">
+          <div className="flex flex-col flex-grow bg-white shadow-sm min-h-screen">
+            <nav className="mt-8">
+              <div className="px-4 space-y-2">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                      window.location.pathname === item.href
+                        ? 'bg-green-50 text-green-700 border-r-2 border-green-700'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
+                  >
+                    {getIcon(item.icon)}
+                    <span>{item.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        {/* Mobile Sidebar */}
+        <div className={`md:hidden fixed inset-0 z-50 bg-gray-600 bg-opacity-75 ${sidebarOpen ? 'block' : 'hidden'}`}>
+          <div className="fixed inset-y-0 left-0 flex w-full max-w-xs bg-white shadow-xl">
+            <div className="flex flex-col flex-grow">
+              <div className="flex items-center justify-between h-16 px-4 border-b">
+                <span className="text-lg font-semibold">Menu</span>
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  {getIcon(item.icon)}
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <nav className="mt-8">
+                <div className="px-4 space-y-2">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                        window.location.pathname === item.href
+                          ? 'bg-green-50 text-green-700 border-r-2 border-green-700'
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
+                    >
+                      {getIcon(item.icon)}
+                      <span>{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </nav>
             </div>
-          </nav>
+          </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 md:p-8">
           {children}
         </div>
       </div>

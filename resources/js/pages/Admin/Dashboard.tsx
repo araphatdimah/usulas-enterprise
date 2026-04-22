@@ -5,8 +5,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import InvoiceDialog from '@/components/InvoiceDialog';
 import AdminLayout from '@/layouts/admin-layout';
 
-export default function AdminDashboard({ stats, salesData, recentOrders }: any) {
-  const chartRef = useRef(null);
+interface RecentOrder {
+  id: number;
+  total_amount: number;
+  status: string;
+  order_number: string | number;
+}
+
+interface AdminDashboardProps {
+  stats: any;
+  salesData: any[];
+  recentOrders: RecentOrder[];
+}
+
+export default function AdminDashboard({ stats, salesData, recentOrders }: AdminDashboardProps) {
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
   const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
   const [selectedOrderNumber, setSelectedOrderNumber] = useState('');
 
@@ -30,6 +43,23 @@ export default function AdminDashboard({ stats, salesData, recentOrders }: any) 
               tension: 0.1,
             },
           ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                maxRotation: 0,
+                minRotation: 0,
+              },
+            },
+          },
         },
       });
     }
@@ -80,13 +110,19 @@ export default function AdminDashboard({ stats, salesData, recentOrders }: any) 
       {/* sales chart */}
       <div className="mb-6">
         <h2 className="text-xl text-gray-500 font-semibold mb-2">Sales Over Time</h2>
-        <canvas id="salesChart" ref={chartRef} />
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-4">
+            <div className="w-full h-72">
+              <canvas id="salesChart" ref={chartRef} className="w-full h-full" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* recent orders list */}
       <div className="mb-6">
         <h2 className="text-xl text-gray-500 font-semibold mb-2">Recent Orders</h2>
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
@@ -97,22 +133,24 @@ export default function AdminDashboard({ stats, salesData, recentOrders }: any) 
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {recentOrders.map((o: {id: number, total_amount: number, status: string, order_number: number}) => (
+              {recentOrders.map((o: RecentOrder) => (
                 <tr key={o.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{o.order_number}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">GHS {o.total_amount}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 capitalize">{o.status}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => openInvoiceDialog(o.order_number)}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      Invoice
-                    </button>
-                    <Link href={`/admin/orders/${o.id}`} className="text-green-600 hover:text-green-800">
-                      View
-                    </Link>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openInvoiceDialog(o.order_number.toString())}
+                        className="text-blue-600 hover:text-blue-800 px-2 py-1 rounded text-sm"
+                      >
+                        Invoice
+                      </button>
+                      <Link href={`/admin/orders/${o.id}`} className="text-green-600 hover:text-green-800 px-2 py-1 rounded text-sm">
+                        View
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
